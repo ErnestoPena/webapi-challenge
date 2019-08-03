@@ -14,7 +14,7 @@ projectRouter.get('/', async (req,res) => {
 })
 
 //GET for an specific ID
-projectRouter.get('/:id' , verifyId , async (req , res) =>{
+projectRouter.get('/:id' , verifyIdProjects , async (req , res) =>{
     
     try {
         const projectId = await dbProjects.get(req.id);
@@ -38,7 +38,7 @@ projectRouter.post('/', async (req,res) => {
 })
 
 //PUT method for projects
-projectRouter.put('/:id' , verifyId ,async (req,res) => {
+projectRouter.put('/:id' , verifyIdProjects ,async (req,res) => {
     try {
         const myUpdatedProject = await dbProjects.update(req.id , req.body);
         res.status(200).json({message: `The project ${myUpdatedProject.name} has been audated`});
@@ -49,7 +49,7 @@ projectRouter.put('/:id' , verifyId ,async (req,res) => {
 })
 
 //DELETE method for projects
-projectRouter.delete('/:id' , verifyId , async (req , res) => {
+projectRouter.delete('/:id' , verifyIdProjects , async (req , res) => {
     try {
         const deletedProjectHolder = await dbProjects.get(req.id);
         const deletedProject = await dbProjects.remove(req.id);
@@ -61,7 +61,7 @@ projectRouter.delete('/:id' , verifyId , async (req , res) => {
 })
 
 //Extra method to list all actions of a single project
-projectRouter.get('/:id/actions' , verifyId, async (req,res) =>{
+projectRouter.get('/:id/actions' , verifyIdProjects, async (req,res) =>{
     try {
         const actionByProjects = await dbProjects.getProjectActions(req.id);
         res.status(200).json({actionByProjects})
@@ -75,7 +75,7 @@ projectRouter.get('/:id/actions' , verifyId, async (req,res) =>{
 //Middlewares
 
 //Verify Id before GET-PUT-DELETE.
-async function verifyId(req , res , next) {
+async function verifyIdProjects(req , res , next) {
     const verifiedId = await dbProjects.get(req.params.id);
     req.id = req.params.id ;
     try {
