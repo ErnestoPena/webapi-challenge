@@ -46,24 +46,33 @@ actionRouter.post('/:id/actions', verifyIdProjects, async (req,res)=>{
         res.status(200).json({newAction});
     }
     catch (err) {
-        res.status(500).json({message: 'There was a problem retreiving the records'})
+        res.status(500).json({message: 'There was a problem radding the records'})
     }
 })
 
+//PUT method to update an specific Action
 
+actionRouter.put('/:id' , verifyIdActions , async (req,res) =>{
+    try {
+        const changes = req.body;
+        const updatedAction = await dbActions.update(req.id , changes);
+        res.status(200).json({updatedAction});
+    }
+    catch (err) {
+        res.status(500).json({message: `There was a problem when updating the record`})
+    }
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
+//DELETE method for the Actions
+actionRouter.delete('/:id' , verifyIdActions, async (req, res)=>{
+    try {
+        const deletedAction = await dbActions.remove(req.id);
+        res.status(200).json({message: `The delete action was successful`})
+    }
+    catch (err) {
+        res.status(500).json({message: "There was a problem trying to delete the record"})
+    }
+})
 
 //Middlewares
 

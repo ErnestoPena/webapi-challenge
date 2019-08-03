@@ -51,9 +51,8 @@ projectRouter.put('/:id' , verifyIdProjects ,async (req,res) => {
 //DELETE method for projects
 projectRouter.delete('/:id' , verifyIdProjects , async (req , res) => {
     try {
-        const deletedProjectHolder = await dbProjects.get(req.id);
         const deletedProject = await dbProjects.remove(req.id);
-        res.status(200).json({message: `The project with the id: ${deletedProjectHolder.id} and name: ${deletedProjectHolder.name} has been deleted`})
+        res.status(200).json({message: `The project with the id: ${req.id}} has been deleted`})
     }
     catch (err) {
         res.status(500).json({message: `There was a problem with the ${req.method} method`});
